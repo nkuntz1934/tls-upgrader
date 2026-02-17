@@ -1,0 +1,39 @@
+{
+  "name": "tls-upgrade-worker",
+  "main": "tls-upgrade-worker.js",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "YOUR_ACCOUNT_ID",
+
+  // Run every day at 2 AM UTC
+  "triggers": {
+    "crons": ["0 2 * * *"]
+  },
+
+  // Queue configuration - worker is both producer and consumer
+  "queues": {
+    "producers": [
+      {
+        "binding": "TLS_UPGRADE_QUEUE",
+        "queue": "tls-upgrade-notifications"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "tls-upgrade-notifications",
+        "max_batch_size": 10,
+        "max_batch_timeout": 30,
+        "max_retries": 3,
+        "dead_letter_queue": "tls-upgrade-notifications-dlq"
+      }
+    ]
+  },
+
+  // Email binding for sending to verified address
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_destination_addresses": ["YOUR_EMAIL@example.com"]
+    }
+  ]
+}

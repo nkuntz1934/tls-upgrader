@@ -1,0 +1,15 @@
+# Wrangler configs with account info
+wrangler.jsonc
+
+# Wrangler
+.wrangler/
+wrangler.toml
+dist/
+node_modules/
+
+# Environment
+.env
+.dev.vars
+
+# OS
+.DS_Store
